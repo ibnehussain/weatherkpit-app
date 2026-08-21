@@ -1,0 +1,187 @@
+:root {
+    --sky-top: #4a90e2;
+    --sky-bottom: #87ceeb;
+    --card-bg: rgba(255, 255, 255, 0.18);
+    --card-border: rgba(255, 255, 255, 0.35);
+    --text-color: #ffffff;
+    --accent: #ffd54f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-color);
+    /* animated gradient evokes a shifting sky; colors swap live via theme-* classes */
+    background: linear-gradient(135deg, var(--sky-top), var(--sky-bottom), var(--sky-top));
+    background-size: 200% 200%;
+    animation: sky-shift 18s ease-in-out infinite;
+    transition: background 1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+@keyframes sky-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.app h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.search-bar {
+    display: flex;
+    width: 100%;
+    gap: 0.75rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
+    border-radius: 999px;
+    padding: 0.5rem;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 1rem;
+    padding: 0.6rem 1rem;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.search-bar button {
+    border: none;
+    border-radius: 999px;
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-bar button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.search-bar button:active {
+    transform: translateY(0);
+}
+
+.results {
+    width: 100%;
+    min-height: 3rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.results:empty::before {
+    content: "Search for a city to see the weather";
+    opacity: 0.85;
+    font-size: 0.95rem;
+}
+
+.results .temperature {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.results .condition {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.results .icon {
+    font-size: 4rem;
+    line-height: 1;
+    cursor: default;
+    animation: icon-float 3s ease-in-out infinite;
+    transition: transform 0.2s ease;
+}
+
+.results .icon:hover,
+.results .icon:focus-visible {
+    transform: scale(1.2) rotate(-5deg);
+    animation-play-state: paused;
+    outline: none;
+}
+
+@keyframes icon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.results .details {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.results .error {
+    color: #ffdede;
+    font-weight: 600;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Dynamic theme hooks: toggled via JS based on returned weather condition */
+body.theme-clear { --sky-top: #2980b9; --sky-bottom: #6dd5fa; }
+body.theme-cloudy { --sky-top: #757f9a; --sky-bottom: #d7dde8; }
+body.theme-rain { --sky-top: #373b44; --sky-bottom: #4286f4; }
+body.theme-storm { --sky-top: #16222a; --sky-bottom: #3a6073; }
+body.theme-snow { --sky-top: #83a4d4; --sky-bottom: #b6fbff; }
+body.theme-night { --sky-top: #0f2027; --sky-bottom: #2c5364; }
+
+/* Temperature-driven accent color, layered on top of the condition theme */
+body.temp-cold { --accent: #82caff; }
+body.temp-mild { --accent: #ffd54f; }
+body.temp-warm { --accent: #ffa552; }
+body.temp-hot { --accent: #ff6b4a; }

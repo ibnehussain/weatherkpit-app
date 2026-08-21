@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="app">
+        <h1>Weather Dashboard</h1>
+
+        <section class="search-bar">
+            <label for="city-input" class="sr-only">City name</label>
+            <input type="text" id="city-input" placeholder="Enter city name..." autocomplete="off">
+            <button id="get-weather-btn" type="button">Get Weather</button>
+        </section>
+
+        <section id="results" class="results" aria-live="polite">
+            <!-- Populated dynamically: loading state, weather data, or error message -->
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
